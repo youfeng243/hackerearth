@@ -10,23 +10,22 @@ class BIT(object):
         
     def Sum( self, x ):
         res = 0
-        while x > 0:
+        while x <= self.N:
             res += self.bit[x]
-            x -= self.lowbit(x)
+            x += self.lowbit(x)
         return res
     
     def Add( self, x, n ):
-        while x <= self.N:
+        while x > 0:
             self.bit[x] += n
-            x += self.lowbit(x)
+            x -= self.lowbit(x)
         
     def Update( self, x, y, n ):
-        self.Add( x, n )
-        self.Add( y + 1, -n )
-        print self.bit
+        self.Add( x - 1, -n )
+        self.Add( y, n )
     
     def Query( self, x ):
-        return self.Sum(x) - self.Sum(x - 1)
+        return self.Sum(x)
         
 def main():
     N = input()
@@ -41,7 +40,7 @@ def main():
     for i in xrange( 1, N + 1 ):
         Num[i] = B.Query( i )
     
-    print Num
+    #print Num
     
     DP = [0] * (N + 1)
     for i in xrange( 1, N + 1 ):
